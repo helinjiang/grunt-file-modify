@@ -1,6 +1,6 @@
 # grunt-file-modify
 
-> modify file's content.
+> modify file content.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -37,53 +37,38 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.process
+Type: `Function(content, srcpath)`
 
-A string value that is used to do something with whatever.
+`options.process` 将被传递给 `grunt.file.copy` ，用于控制哪些内容可以被拷贝（保存）。**该函数需要返回一个新的文件的内容**。
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+- `content` ： 该文件的原始内容，可以通过修改 `content` 从而获得新的文件内容
+- `srcpath` ： 该文件先对与Gruntfile.js的路径
 
-A string value that is used to do something else with whatever else.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  file_modify: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### 自定义方法修改文件内容
+在下面的例子中，我们将去掉包含了 “//@debug” 的行的内容。为什么需要这么做？因为很多时候我们在调试时需要打印各种内容，但构建发布版本时，我们就需要移除这些代码。使用单行注释中增加“//@debug”的标志，就能够使得我们能够更灵活控制哪些代码是需要在发布版本中删除的。
 
 ```js
 grunt.initConfig({
   file_modify: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+        process: function (content, srcpath) {
+            /**
+             * 去掉包含了 “//@debug” 的行的内容，例如下面这一行因为包含了@debug，则该行内容将被替换为空白
+             * console.log(s1); // @debug remove this line, too!
+             */
+            return content.replace(/[^\n]+\/\/\s*@\s*debug.*/g, '');
+        }
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    src: ['tmp/options_process.js']
   },
 });
 ```
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-2015.11.23 v1.0.0 init
+2015.11.23 v0.1.0 Support `options.process` to modify file content.
+2015.11.23 v0.0.1 Init.

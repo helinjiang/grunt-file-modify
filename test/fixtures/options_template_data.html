@@ -1,0 +1,9 @@
+<h1>options_template_data.html</h1>
+<p>Next is list of <%=listName%></p>
+<%if(detail && detail.length){%>
+    <ul>
+        <%for(var i=0,length=detail.length,one;(one=detail[i])&&(i<length);i++){%>
+            <li><%=one.name%>：<%=one.sex%>，<%=one.age%></li>
+        <%}%>
+    </ul>
+<%}%>

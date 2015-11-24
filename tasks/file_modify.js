@@ -18,28 +18,51 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('file_modify', 'modify file content.', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
-            reg: null, // 对象，{pattern:xxx,attributes:zzz,replaceStr:yyy},用于正则匹配并替换文件内容
+            template: null, // 对象，{data:xxx, type:yyy}
+            reg: null, // 对象，{pattern:xxx, flags:zzz, replaceStr:yyy},用于正则匹配并替换文件内容
             process: null // 处理文件的内容，Type: Function(content, srcpath)
         });
 
         // 如果没有在options进行配置，则这些文件将不进行任何处理
-        if (!options.reg && !options.process) {
+        if (!options.template && !options.reg && !options.process) {
             grunt.log.warn('No valid config in options, do nothing in task "' + this.target + '" for: ' + this.filesSrc);
             return;
         }
 
         //==========================================================
-        // 执行顺序：首先处理reg的内容，再处理process
+        // 执行顺序：首先处理template内容，然后reg的内容，再处理process
         //==========================================================
+        /**
+         * 处理options.template配置
+         */
+        var optionsTemplateFunc;
+        if (options.template && options.template.data) {
+            var dataJson;
+            if (_.isObject(options.template.data)) {
+                dataJson = options.template.data;
+            } else {
+                dataJson = grunt.file.readJSON(options.template.data);
+                if (!_.isObject(dataJson) || _.isEmpty(dataJson)) {
+                    grunt.log.warn('Can not get JSON in task "' + this.target + '" from ' + options.template.data);
+                    return false;
+                }
+            }
+
+            optionsTemplateFunc = function (content, srcpath) {
+                return _.template(content)(dataJson);
+            };
+        }
 
         /**
          * 处理options.reg配置
          */
         var optionsRegFunc;
-        if (options.reg && options.reg.pattern && options.reg.replaceStr) {
-            var attributes = options.reg.attributes || 'gi';
+        if (options.reg && options.reg.pattern) {
+            var flags = options.reg.flags || 'gi',
+                replaceStr = options.reg.replaceStr || '';
+
             optionsRegFunc = function (content, srcpath) {
-                return content.replace(new RegExp(options.reg.pattern, attributes), options.reg.replaceStr);
+                return content.replace(new RegExp(options.reg.pattern, flags), replaceStr);
             };
         }
 
@@ -51,6 +74,11 @@ module.exports = function (grunt) {
          */
         var processFunc = function (content, srcpath) {
             var newContent = content;
+
+            if (_.isFunction(optionsTemplateFunc)) {
+                newContent = optionsTemplateFunc(newContent, srcpath);
+            }
+
             if (_.isFunction(optionsRegFunc)) {
                 newContent = optionsRegFunc(newContent, srcpath);
             }

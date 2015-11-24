@@ -44,5 +44,23 @@ exports.file_modify = {
         test.equal(actual, expected, 'some text should be replaced');
 
         test.done();
+    },
+    options_template_data: function (test) {
+        test.expect(1);
+
+        var actual = grunt.file.read('tmp/options_template_data.html');
+        var expected = grunt.file.read('test/expected/options_template_data.html');
+        test.equal(actual, expected, 'template file should be changed to normal file!');
+
+        test.done();
+    },
+    options_template_url: function (test) {
+        test.expect(1);
+
+        var actual = grunt.file.read('tmp/options_template_url.html');
+        var expected = grunt.file.read('test/expected/options_template_url.html');
+        test.equal(actual, expected, 'template file should be changed to normal file!');
+
+        test.done();
     }
 };

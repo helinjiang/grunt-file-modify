@@ -12,6 +12,7 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        testVar: 'tmp',
         jshint: {
             all: [
                 'Gruntfile.js',
@@ -34,7 +35,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'test/fixtures/',
-                    src: ['**/*.js'],
+                    src: ['**/*'],
                     dest: 'tmp/'
                 }]
             }
@@ -58,7 +59,7 @@ module.exports = function (grunt) {
                 options: {
                     reg: {
                         pattern: 'world',
-                        attributes: 'gi', //可以省略，默认值为'gi'
+                        flags: 'gi', //可以省略，默认值为'gi'
                         replaceStr: 'grunt-file-modify'
                     },
                     process: function (content, srcpath) {
@@ -66,6 +67,37 @@ module.exports = function (grunt) {
                     }
                 },
                 src: ['tmp/options_reg.js']
+            },
+            options_template_data: {
+                options: {
+                    template: {
+                        data: {
+                            listName: 'student',
+                            detail: [{
+                                name: 'LiLei',
+                                sex: 'male',
+                                age: 15
+                            }, {
+                                name: 'HanMeimei',
+                                sex: 'female',
+                                age: 15
+                            }, {
+                                name: 'Jim',
+                                sex: 'male',
+                                age: 16
+                            }]
+                        }
+                    }
+                },
+                src: ['tmp/options_template_data.html']
+            },
+            options_template_url: {
+                options: {
+                    template: {
+                        data: '<%=testVar%>/data.json'
+                    }
+                },
+                src: ['tmp/options_template_url.html']
             }
         },
 

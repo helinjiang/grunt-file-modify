@@ -36,6 +36,75 @@ grunt.initConfig({
 ```
 
 ### Options
+> 同时支持 `options.reg`、 `options.template` 和 `options.process`，对文件内容的处理顺序依次为 `options.template`、 `options.reg` 和 `options.process`。但必须要有其中一种，否则将对文件不做任何处理。
+
+#### options.reg
+Type: `Object`
+Default value: `null`
+支持使用正则表达式快速替换，这样就可以避免在 `options.process` 这个方法里面定义了，更简单。`options.reg` 有三个参数：
+
+- `pattern` ：用于生成正则表达式的字符串，详见 [RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+- `flags` ：正则表达式的参数，必须是 `g` 、 `i` 、 `m` 其中之一或任意组合，详见 [RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp)，不过此参数可以不写，默认为 `gi`
+- `replaceStr` ：要替换的字符串，此参数如果不写，则默认为空字符串
+
+其用法：
+```js
+options: {
+    reg: {
+        pattern: 'world',
+        flags: 'gi', //可以省略，默认值为'gi'
+        replaceStr: 'grunt-file-modify'
+    },
+}
+```
+其等效于定义：
+```js
+options: {
+    process: function(content, srcpath) {
+        //return content.replace(new RegExp(pattern, flags), replaceStr);
+        return content.replace(new RegExp('world', 'gi'), 'grunt-file-modify');
+    }
+}
+```
+
+#### options.template
+Type: `Object`
+Default value: `null`
+支持模版替换，核心算法是采用 [underscore](http://underscorejs.org/)的 `_.template` 方法，其中 `src` 文件为模版，而数据则由 `options.template.data` 传入。`options.template` 有一个参数：
+
+- `data` ：模版的数据，`Object` 或 `String` 类型。如果是 `String`，则会认为其是文件路径，会请求这个文件，将其转换为JSON，因此该文件务必符合JSON格式的文件。
+
+其用法：
+```js
+options: {
+    template: {
+        data: {
+            listName: 'student',
+            detail: [{
+                name: 'LiLei',
+                sex: 'male',
+                age: 15
+            }, {
+                name: 'HanMeimei',
+                sex: 'female',
+                age: 15
+            }, {
+                name: 'Jim',
+                sex: 'male',
+                age: 16
+            }]
+        }
+    }
+}
+```
+或者：
+```js
+options: {
+    template: {
+        data: 'tmp/data.json'
+    }
+},
+```
 
 #### options.process
 Type: `Function(content, srcpath)`
@@ -70,5 +139,6 @@ grunt.initConfig({
 
 
 ## Release History
+2015.11.24 v0.2.0 Support `options.reg`([#1](https://github.com/helinjiang/grunt-file-modify/issues/1)) and `options.template`([#2](https://github.com/helinjiang/grunt-file-modify/issues/2)) .
 2015.11.23 v0.1.0 Support `options.process` to modify file content.
 2015.11.23 v0.0.1 Init.

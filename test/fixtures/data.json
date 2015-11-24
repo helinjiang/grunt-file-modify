@@ -1,0 +1,20 @@
+{
+  "listName": "student",
+  "detail": [
+    {
+      "name": "LiLei",
+      "sex": "male",
+      "age": 15
+    },
+    {
+      "name": "HanMeimei",
+      "sex": "female",
+      "age": 15
+    },
+    {
+      "name": "Jim",
+      "sex": "male",
+      "age": 16
+    }
+  ]
+}

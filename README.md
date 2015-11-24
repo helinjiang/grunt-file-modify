@@ -139,6 +139,10 @@ grunt.initConfig({
 
 
 ## Release History
+2015.11.24 v0.2.1 Modify readme.md
+
 2015.11.24 v0.2.0 Support `options.reg`([#1](https://github.com/helinjiang/grunt-file-modify/issues/1)) and `options.template`([#2](https://github.com/helinjiang/grunt-file-modify/issues/2)) .
+
 2015.11.23 v0.1.0 Support `options.process` to modify file content.
+
 2015.11.23 v0.0.1 Init.

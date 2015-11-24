@@ -40,16 +40,16 @@ grunt.initConfig({
 #### options.process
 Type: `Function(content, srcpath)`
 
-`options.process` ½«±»´«µÝ¸ø `grunt.file.copy` £¬ÓÃÓÚ¿ØÖÆÄÄÐ©ÄÚÈÝ¿ÉÒÔ±»¿½±´£¨±£´æ£©¡£**¸Ãº¯ÊýÐèÒª·µ»ØÒ»¸öÐÂµÄÎÄ¼þµÄÄÚÈÝ**¡£
+`options.process` å°†è¢«ä¼ é€’ç»™ `grunt.file.copy` ï¼Œç”¨äºŽæŽ§åˆ¶å“ªäº›å†…å®¹å¯ä»¥è¢«æ‹·è´ï¼ˆä¿å­˜ï¼‰ã€‚**è¯¥å‡½æ•°éœ€è¦è¿”å›žä¸€ä¸ªæ–°çš„æ–‡ä»¶çš„å†…å®¹**ã€‚
 
-- `content` £º ¸ÃÎÄ¼þµÄÔ­Ê¼ÄÚÈÝ£¬¿ÉÒÔÍ¨¹ýÐÞ¸Ä `content` ´Ó¶ø»ñµÃÐÂµÄÎÄ¼þÄÚÈÝ
-- `srcpath` £º ¸ÃÎÄ¼þÏÈ¶ÔÓëGruntfile.jsµÄÂ·¾¶
+- `content` ï¼š è¯¥æ–‡ä»¶çš„åŽŸå§‹å†…å®¹ï¼Œå¯ä»¥é€šè¿‡ä¿®æ”¹ `content` ä»Žè€ŒèŽ·å¾—æ–°çš„æ–‡ä»¶å†…å®¹
+- `srcpath` ï¼š è¯¥æ–‡ä»¶å…ˆå¯¹ä¸ŽGruntfile.jsçš„è·¯å¾„
 
 
 ### Usage Examples
 
-#### ×Ô¶¨Òå·½·¨ÐÞ¸ÄÎÄ¼þÄÚÈÝ
-ÔÚÏÂÃæµÄÀý×ÓÖÐ£¬ÎÒÃÇ½«È¥µô°üº¬ÁË ¡°//@debug¡± µÄÐÐµÄÄÚÈÝ¡£ÎªÊ²Ã´ÐèÒªÕâÃ´×ö£¿ÒòÎªºÜ¶àÊ±ºòÎÒÃÇÔÚµ÷ÊÔÊ±ÐèÒª´òÓ¡¸÷ÖÖÄÚÈÝ£¬µ«¹¹½¨·¢²¼°æ±¾Ê±£¬ÎÒÃÇ¾ÍÐèÒªÒÆ³ýÕâÐ©´úÂë¡£Ê¹ÓÃµ¥ÐÐ×¢ÊÍÖÐÔö¼Ó¡°//@debug¡±µÄ±êÖ¾£¬¾ÍÄÜ¹»Ê¹µÃÎÒÃÇÄÜ¹»¸üÁé»î¿ØÖÆÄÄÐ©´úÂëÊÇÐèÒªÔÚ·¢²¼°æ±¾ÖÐÉ¾³ýµÄ¡£
+#### è‡ªå®šä¹‰æ–¹æ³•ä¿®æ”¹æ–‡ä»¶å†…å®¹
+åœ¨ä¸‹é¢çš„ä¾‹å­ä¸­ï¼Œæˆ‘ä»¬å°†åŽ»æŽ‰åŒ…å«äº† â€œ//@debugâ€ çš„è¡Œçš„å†…å®¹ã€‚ä¸ºä»€ä¹ˆéœ€è¦è¿™ä¹ˆåšï¼Ÿå› ä¸ºå¾ˆå¤šæ—¶å€™æˆ‘ä»¬åœ¨è°ƒè¯•æ—¶éœ€è¦æ‰“å°å„ç§å†…å®¹ï¼Œä½†æž„å»ºå‘å¸ƒç‰ˆæœ¬æ—¶ï¼Œæˆ‘ä»¬å°±éœ€è¦ç§»é™¤è¿™äº›ä»£ç ã€‚ä½¿ç”¨å•è¡Œæ³¨é‡Šä¸­å¢žåŠ â€œ//@debugâ€çš„æ ‡å¿—ï¼Œå°±èƒ½å¤Ÿä½¿å¾—æˆ‘ä»¬èƒ½å¤Ÿæ›´çµæ´»æŽ§åˆ¶å“ªäº›ä»£ç æ˜¯éœ€è¦åœ¨å‘å¸ƒç‰ˆæœ¬ä¸­åˆ é™¤çš„ã€‚
 
 ```js
 grunt.initConfig({
@@ -57,7 +57,7 @@ grunt.initConfig({
     options: {
         process: function (content, srcpath) {
             /**
-             * È¥µô°üº¬ÁË ¡°//@debug¡± µÄÐÐµÄÄÚÈÝ£¬ÀýÈçÏÂÃæÕâÒ»ÐÐÒòÎª°üº¬ÁË@debug£¬Ôò¸ÃÐÐÄÚÈÝ½«±»Ìæ»»Îª¿Õ°×
+             * åŽ»æŽ‰åŒ…å«äº† â€œ//@debugâ€ çš„è¡Œçš„å†…å®¹ï¼Œä¾‹å¦‚ä¸‹é¢è¿™ä¸€è¡Œå› ä¸ºåŒ…å«äº†@debugï¼Œåˆ™è¯¥è¡Œå†…å®¹å°†è¢«æ›¿æ¢ä¸ºç©ºç™½
              * console.log(s1); // @debug remove this line, too!
              */
             return content.replace(/[^\n]+\/\/\s*@\s*debug.*/g, '');

@@ -46,13 +46,26 @@ module.exports = function (grunt) {
                 options: {
                     process: function (content, srcpath) {
                         /**
-                         * È¥µô°üº¬ÁË ¡°//@debug¡± µÄĞĞµÄÄÚÈİ£¬ÀıÈçÏÂÃæÕâÒ»ĞĞÒòÎª°üº¬ÁË@debug£¬Ôò¸ÃĞĞÄÚÈİ½«±»Ìæ»»Îª¿Õ°×
+                         * å»æ‰åŒ…å«äº† â€œ//@debugâ€ çš„è¡Œçš„å†…å®¹ï¼Œä¾‹å¦‚ä¸‹é¢è¿™ä¸€è¡Œå› ä¸ºåŒ…å«äº†@debugï¼Œåˆ™è¯¥è¡Œå†…å®¹å°†è¢«æ›¿æ¢ä¸ºç©ºç™½
                          * console.log(s1); // @debug remove this line, too!
                          */
                         return content.replace(/[^\n]+\/\/\s*@\s*debug.*/g, '');
                     }
                 },
                 src: ['tmp/options_process.js']
+            },
+            options_reg: {
+                options: {
+                    reg: {
+                        pattern: 'world',
+                        attributes: 'gi', //å¯ä»¥çœç•¥ï¼Œé»˜è®¤å€¼ä¸º'gi'
+                        replaceStr: 'grunt-file-modify'
+                    },
+                    process: function (content, srcpath) {
+                        return content.replace(/Node\.js/g, 'grunt-file-modify');
+                    }
+                },
+                src: ['tmp/options_reg.js']
             }
         },
 
@@ -79,6 +92,6 @@ module.exports = function (grunt) {
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jshint', 'test']);
 
-    grunt.registerTask('mytest', ['clean', 'copy', 'file_modify']);
+    grunt.registerTask('mytest', ['clean', 'copy', 'file_modify:options_reg']);
 
 };

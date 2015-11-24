@@ -32,7 +32,16 @@ exports.file_modify = {
 
         var actual = grunt.file.read('tmp/options_process.js');
         var expected = grunt.file.read('test/expected/options_process.js');
-        test.equal(actual, expected, '@debug line should be removed!.');
+        test.equal(actual, expected, '@debug line should be removed!');
+
+        test.done();
+    },
+    options_reg: function (test) {
+        test.expect(1);
+
+        var actual = grunt.file.read('tmp/options_reg.js');
+        var expected = grunt.file.read('test/expected/options_reg.js');
+        test.equal(actual, expected, 'some text should be replaced');
 
         test.done();
     }

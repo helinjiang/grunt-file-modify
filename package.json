@@ -42,5 +42,8 @@
     "file",
     "modify",
     "content"
-  ]
+  ],
+  "dependencies": {
+    "underscore": "^1.8.3"
+  }
 }
